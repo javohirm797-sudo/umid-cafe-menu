@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: umid-cafe-menu
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_PIN
+        value: "1234"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: umid-cafe-db
+          property: connectionString
+
+databases:
+  - name: umid-cafe-db
+    databaseName: umid_cafe_db
+    user: umid_admin
+    plan: free

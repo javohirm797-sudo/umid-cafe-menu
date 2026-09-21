@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0c0a09">
+    <meta name="description" content="UMID+ - Zamonaviy Online QR Menyu. Xushbo'y kofe, mazali taomlar va shirinliklar.">
+    <title>UMID+ | Online Menyu</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Asosiy CSS uslublari -->
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- HEADER & HERO BO'LIMI -->
+        <header class="cafe-hero">
+            <div class="hero-top-bar">
+                <div class="cafe-brand">
+                    <div class="cafe-logo">☕</div>
+                    <div class="cafe-name-wrap">
+                        <h1 id="cafeName">UMID+</h1>
+                        <div class="cafe-status">
+                            <span class="status-dot"></span>
+                            <span>Hozir ochiq</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Wi-Fi tugmasi -->
+                    <button class="icon-btn" id="wifiBtn" title="Wi-Fi ma'lumotlari" aria-label="Wi-Fi">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        </svg>
+                    </button>
+                    <!-- Stol QR-kod tugmasi -->
+                    <button class="icon-btn" id="qrBtn" title="Stol QR kodi" aria-label="QR Kod">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <p class="cafe-tagline" id="cafeTagline">Har bir qultumda va lazzatda mehr bor</p>
+            
+            <div class="cafe-meta-pills">
+                <div class="meta-pill">
+                    <span>🕒</span>
+                    <span id="cafeHours">08:00 - 23:00</span>
+                </div>
+                <a href="#" id="cafeAddressLink" target="_blank" class="meta-pill" title="Xaritada ochish" style="text-decoration: none;">
+                    <span>📍</span>
+                    <span id="cafeAddress">Toshkent sh.</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- STICKY NAV: QIDIRUV VA KATEGORIYALAR -->
+        <nav class="sticky-nav-wrapper">
+            <!-- Qidiruv qatori -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Taom yoki ichimlik qidirish..." 
+                    autocomplete="off"
+                >
+                <button id="searchClearBtn" class="search-clear-btn" aria-label="Tozalash">✕</button>
+            </div>
+
+            <!-- Gorizontal toifalar paneli -->
+            <div class="categories-bar" id="categoriesBar">
+                <!-- JS orqali to'ldiriladi -->
+            </div>
+
+            <!-- Qo'shimcha filtrlar -->
+            <div class="filter-tags-wrap" id="filterTags">
+                <button class="filter-chip active" data-filter="all">Barchasi</button>
+                <button class="filter-chip" data-filter="popular">Hit / Ommabop 🔥</button>
+                <button class="filter-chip" data-filter="new">Yangi ✨</button>
+                <button class="filter-chip" data-filter="price-asc">Arzonroq 💰</button>
+                <button class="filter-chip" data-filter="price-desc">Qimmatroq 💎</button>
+            </div>
+        </nav>
+
+        <!-- ASOSIY MENYU TAOMLARI RO'YXATI -->
+        <main class="menu-feed" id="menuFeed">
+            <!-- JS orqali dinamik yaratiladi -->
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="cafe-footer">
+            <div class="footer-logo">☕</div>
+            <h3 id="footerCafeName">UMID+</h3>
+            <p class="footer-text" id="footerAddress">Toshkent sh., Amir Temur ko'chasi, 45-uy</p>
+            
+            <div class="footer-socials">
+                <a href="#" class="social-link" title="Telegram" aria-label="Telegram">✈️</a>
+                <a href="#" class="social-link" title="Instagram" aria-label="Instagram">📸</a>
+                <a href="#" id="footerMapLink" class="social-link" title="Xaritada ko'rish" aria-label="Xarita" target="_blank">📍</a>
+            </div>
+
+            <p class="footer-text" style="font-size: 0.72rem; margin-top: 10px; opacity: 0.6;">
+                © 2026 Barcha huquqlar himoyalangan. QR Online Menyu tizimi.
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- ========================================================
+         MODAL: TAOM TAFSILOTLARI (DISH DETAIL)
+         ======================================================== -->
+    <div class="modal-overlay" id="dishModal">
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Yopish">✕</button>
+            
+            <div class="modal-image-wrap">
+                <img id="modalDishImg" class="modal-image" src="" alt="Taom rasmi">
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-header-row">
+                    <h2 class="modal-title" id="modalDishTitle">Taom nomi</h2>
+                    <div class="modal-price" id="modalDishPrice">0 so'm</div>
+                </div>
+
+                <div class="modal-meta-grid">
+                    <div class="modal-meta-item">
+                        <div class="meta-label">Porsiya hajmi</div>
+                        <div class="meta-value" id="modalDishPortion">-</div>
+                    </div>
+                    <div class="modal-meta-item">
+                        <div class="meta-label">Energetik qiymati</div>
+                        <div class="meta-value" id="modalDishCalories">-</div>
+                    </div>
+                </div>
+
+                <div class="modal-desc-heading">Tavsifi & Tarkibi</div>
+                <p class="modal-desc-text" id="modalDishDesc"></p>
+
+                <div class="modal-tags" id="modalDishTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL: WI-FI MA'LUMOTLARI
+         ======================================================== -->
+    <div class="modal-overlay" id="wifiModal">
+        <div class="center-modal">
+            <button class="modal-close-btn modal-close-action" style="top: 10px; right: 10px;">✕</button>
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">📶</div>
+            <h3>Mehmonlar uchun Wi-Fi</h3>
+            <p>Kafemizda bepul va tezkor internetdan bahramand bo'ling!</p>
+
+            <div class="wifi-box">
+                <div class="wifi-row">
+                    <span style="color: var(--text-dim);">Tarmoq nomi:</span>
+                    <strong id="wifiNetworkName">Aroma_Cafe_Guest</strong>
+                </div>
+                <div class="wifi-row">
+                    <span style="color: var(--text-dim);">Parol:</span>
+                    <span class="wifi-pass" id="wifiPassText">aromacafe2026</span>
+                </div>
+            </div>
+
+            <button class="primary-btn" id="copyWifiBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Parolni nusxalash
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL: STOL UCHUN QR KOD
+         ======================================================== -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="center-modal">
+            <button class="modal-close-btn modal-close-action" style="top: 10px; right: 10px;">✕</button>
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">📱</div>
+            <h3>Stol uchun QR Kod</h3>
+            <p>Mijozlar telefon kamerasini ushbu QR kodga qaratib, menyuni bir zumda ochishlari mumkin.</p>
+
+            <img id="tableQrCode" class="qr-code-img" alt="Menyu QR Kodi" src="">
+
+            <button class="primary-btn modal-close-action">
+                Tushunarli
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL: ADMIN PIN KODNI KIRITISH (5 MARTA BOSILGANDA)
+         ======================================================== -->
+    <div class="modal-overlay" id="adminPinModal">
+        <div class="center-modal">
+            <button class="modal-close-btn modal-close-action" style="top: 10px; right: 10px;">✕</button>
+            <div style="font-size: 2.5rem; margin-bottom: 8px;">🔐</div>
+            <h3>Admin Panelga Kirish</h3>
+            <p>Boshqaruv paneliga kirish uchun 4 xonali PIN kodni kiriting</p>
+
+            <form id="adminPinForm" style="margin-top: 10px;">
+                <input 
+                    type="password" 
+                    id="adminPinInput" 
+                    class="search-input" 
+                    style="text-align: center; font-size: 1.5rem; letter-spacing: 6px; padding: 0 16px; margin-bottom: 12px;" 
+                    placeholder="••••" 
+                    maxlength="6" 
+                    autocomplete="off" 
+                    required
+                >
+                <div id="adminPinError" style="color: var(--accent); font-size: 0.8rem; margin-bottom: 12px; display: none;"></div>
+                <button type="submit" class="primary-btn">Kirish</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL: TO'LIQ ADMIN BOSHQARUV PANELİ
+         ======================================================== -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content admin-modal-container">
+            <div class="admin-header">
+                <div>
+                    <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                        <span>⚙️</span> UMID+ Boshqaruv Paneli
+                    </h2>
+                    <div id="adminPgStatus" class="pg-status-badge">
+                        <span class="status-dot"></span> PostgreSQL tekshirilmoqda...
+                    </div>
+                </div>
+                <button class="modal-close-btn modal-close-action" style="position: static;">✕</button>
+            </div>
+
+            <!-- Admin Navigatsiya Tablari -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="tabDishes">📋 Taomlar ro'yxati</button>
+                <button class="admin-tab-btn" data-tab="tabAdd" id="adminNewDishTabBtn">➕ Yangi taom</button>
+                <button class="admin-tab-btn" data-tab="tabSettings">🏢 Kafe sozlamalari</button>
+            </div>
+
+            <div class="admin-body">
+                <!-- TAB 1: TAOMLAR RO'YXATI -->
+                <div class="admin-tab-pane active" id="tabDishes">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <input 
+                            type="text" 
+                            id="adminSearchInput" 
+                            class="search-input" 
+                            style="height: 38px; font-size: 0.85rem;" 
+                            placeholder="Ro'yxatdan qidirish..."
+                        >
+                    </div>
+                    <div class="admin-dish-list" id="adminDishList">
+                        <!-- JS orqali to'ldiriladi -->
+                    </div>
+                </div>
+
+                <!-- TAB 2: YANGI TAOM QO'SHISH VA TAHRIRLASH -->
+                <div class="admin-tab-pane" id="tabAdd">
+                    <form id="adminDishForm" class="admin-form">
+                        <input type="hidden" id="dishFormId" value="">
+                        
+                        <div class="form-row">
+                            <label>Taom nomi *</label>
+                            <input type="text" id="dishFormName" class="form-input" placeholder="Masalan: Maxsus Latte" required>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label>Kategoriya *</label>
+                                <select id="dishFormCategory" class="form-input" required>
+                                    <option value="coffee">☕ Kofe & Choy</option>
+                                    <option value="cold-drinks">🍹 Salqin ichimliklar</option>
+                                    <option value="breakfast">🍳 Nonushta & Tostlar</option>
+                                    <option value="fast-food">🍔 Burger & Fast Food</option>
+                                    <option value="main-dishes">🥩 Asosiy taomlar</option>
+                                    <option value="desserts">🍰 Desertlar</option>
+                                    <option value="salads">🥗 Salatlar & Gazaklar</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Narxi (so'mda) *</label>
+                                <input type="number" id="dishFormPrice" class="form-input" placeholder="Masalan: 32000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Rasm URL havolasi *</label>
+                            <input type="url" id="dishFormImage" class="form-input" placeholder="https://..." required>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label>Porsiya hajmi</label>
+                                <input type="text" id="dishFormPortion" class="form-input" placeholder="Masalan: 300 ml yoki 250 g">
+                            </div>
+                            <div class="form-row">
+                                <label>Kaloriya</label>
+                                <input type="text" id="dishFormCalories" class="form-input" placeholder="Masalan: 180 kkal">
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label>Belgi (Badge)</label>
+                                <select id="dishFormBadge" class="form-input">
+                                    <option value="">Hech qanday</option>
+                                    <option value="Hit">🔥 Hit</option>
+                                    <option value="Yangi">✨ Yangi</option>
+                                    <option value="Tavsiya">⭐ Tavsiya</option>
+                                    <option value="Trend">🚀 Trend</option>
+                                    <option value="Klassik">☕ Klassik</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Teglar (vergul bilan)</label>
+                                <input type="text" id="dishFormTags" class="form-input" placeholder="Issiq, Kofe, Shokolad">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Tavsifi & Tarkibi</label>
+                            <textarea id="dishFormDesc" class="form-input" rows="3" placeholder="Taom haqida qisqacha ma'lumot..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-top: 14px;">
+                            <button type="submit" class="primary-btn" id="dishFormSubmitBtn">Saqlash</button>
+                            <button type="button" class="icon-btn" id="dishFormResetBtn" style="width: auto; border-radius: var(--radius-md); padding: 0 16px;">Bekor qilish</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TAB 3: KAFE SOZLAMALARI -->
+                <div class="admin-tab-pane" id="tabSettings">
+                    <form id="adminCafeForm" class="admin-form">
+                        <div class="form-row">
+                            <label>Kafe nomi</label>
+                            <input type="text" id="cafeFormName" class="form-input" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Shior (Tagline)</label>
+                            <input type="text" id="cafeFormTagline" class="form-input">
+                        </div>
+                        <div class="form-row">
+                            <label>Manzil (matn ko'rinishida)</label>
+                            <input type="text" id="cafeFormAddress" class="form-input" placeholder="Toshkent sh., Amir Temur ko'chasi, 45-uy">
+                        </div>
+                        <div class="form-row">
+                            <label>📍 Xarita / Lokatsiya havolasi (Google Maps yoki Yandex Maps)</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="url" id="cafeFormMapUrl" class="form-input" placeholder="https://maps.google.com/?q=...">
+                                <button type="button" id="btnDetectLocation" class="icon-btn" title="Hozirgi lokatsiyamni olish" style="width: auto; padding: 0 12px; border-radius: var(--radius-md); flex-shrink: 0; font-size: 0.8rem; gap: 6px; display: inline-flex; white-space: nowrap;">
+                                    <span>📍</span> Hozirgi joylashuv
+                                </button>
+                            </div>
+                            <small style="color: var(--text-dim); font-size: 0.72rem;">Mijozlar manzilni yoki xarita belgisini bosganda ushbu lokatsiyaga o'tadi.</small>
+                        </div>
+                        <div class="form-row">
+                            <label>Ish vaqti</label>
+                            <input type="text" id="cafeFormHours" class="form-input">
+                        </div>
+                        <div class="form-row">
+                            <label>Telefon raqam</label>
+                            <input type="text" id="cafeFormPhone" class="form-input">
+                        </div>
+                        <div class="form-grid-2">
+                            <div class="form-row">
+                                <label>Wi-Fi tarmoq nomi</label>
+                                <input type="text" id="cafeFormWifiSsid" class="form-input">
+                            </div>
+                            <div class="form-row">
+                                <label>Wi-Fi paroli</label>
+                                <input type="text" id="cafeFormWifiPass" class="form-input">
+                            </div>
+                        </div>
+                        <button type="submit" class="primary-btn" style="margin-top: 10px;">Sozlamalarni saqlash</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKRIPTLAR -->
+    <script src="scripts/menu-data.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
