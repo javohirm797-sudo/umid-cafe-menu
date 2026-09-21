@@ -26,10 +26,6 @@
                     <div class="cafe-logo">☕</div>
                     <div class="cafe-name-wrap">
                         <h1 id="cafeName">UMID+</h1>
-                        <div class="cafe-status">
-                            <span class="status-dot"></span>
-                            <span>Hozir ochiq</span>
-                        </div>
                     </div>
                 </div>
                 
@@ -54,8 +50,6 @@
                     </button>
                 </div>
             </div>
-
-            <p class="cafe-tagline" id="cafeTagline">Har bir qultumda va lazzatda mehr bor</p>
             
             <div class="cafe-meta-pills">
                 <div class="meta-pill">
@@ -87,15 +81,6 @@
             <!-- Gorizontal toifalar paneli -->
             <div class="categories-bar" id="categoriesBar">
                 <!-- JS orqali to'ldiriladi -->
-            </div>
-
-            <!-- Qo'shimcha filtrlar -->
-            <div class="filter-tags-wrap" id="filterTags">
-                <button class="filter-chip active" data-filter="all">Barchasi</button>
-                <button class="filter-chip" data-filter="popular">Hit / Ommabop 🔥</button>
-                <button class="filter-chip" data-filter="new">Yangi ✨</button>
-                <button class="filter-chip" data-filter="price-asc">Arzonroq 💰</button>
-                <button class="filter-chip" data-filter="price-desc">Qimmatroq 💎</button>
             </div>
         </nav>
 
@@ -321,22 +306,9 @@
                             </div>
                         </div>
 
-                        <div class="form-grid-2">
-                            <div class="form-row">
-                                <label>Belgi (Badge)</label>
-                                <select id="dishFormBadge" class="form-input">
-                                    <option value="">Hech qanday</option>
-                                    <option value="Hit">🔥 Hit</option>
-                                    <option value="Yangi">✨ Yangi</option>
-                                    <option value="Tavsiya">⭐ Tavsiya</option>
-                                    <option value="Trend">🚀 Trend</option>
-                                    <option value="Klassik">☕ Klassik</option>
-                                </select>
-                            </div>
-                            <div class="form-row">
-                                <label>Teglar (vergul bilan)</label>
-                                <input type="text" id="dishFormTags" class="form-input" placeholder="Issiq, Kofe, Shokolad">
-                            </div>
+                        <div class="form-row">
+                            <label>Teglar (vergul bilan)</label>
+                            <input type="text" id="dishFormTags" class="form-input" placeholder="Issiq, Kofe, Shokolad">
                         </div>
 
                         <div class="form-row">
@@ -357,10 +329,6 @@
                         <div class="form-row">
                             <label>Kafe nomi</label>
                             <input type="text" id="cafeFormName" class="form-input" required>
-                        </div>
-                        <div class="form-row">
-                            <label>Shior (Tagline)</label>
-                            <input type="text" id="cafeFormTagline" class="form-input">
                         </div>
                         <div class="form-row">
                             <label>Manzil (matn ko'rinishida)</label>

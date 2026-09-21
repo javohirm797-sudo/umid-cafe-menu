@@ -5,7 +5,7 @@
 
 const CAFE_INFO = {
     name: "UMID+",
-    tagline: "Har bir qultumda va lazzatda mehr bor",
+    tagline: "",
     address: "Toshkent sh., Amir Temur ko'chasi, 45-uy",
     workingHours: "08:00 - 23:00 (Har kuni)",
     phone: "+998 (90) 123-45-67",

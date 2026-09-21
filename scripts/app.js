@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elementlari
     const cafeNameEl = document.getElementById('cafeName');
     const categoriesBar = document.getElementById('categoriesBar');
-    const filterTagsWrap = document.getElementById('filterTags');
     const menuFeed = document.getElementById('menuFeed');
     const searchInput = document.getElementById('searchInput');
     const searchClearBtn = document.getElementById('searchClearBtn');
@@ -111,9 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function initCafeInfo() {
         const nameEl = document.getElementById('cafeName');
         if (nameEl) nameEl.textContent = cafeInfoData.name || "UMID+";
-        
-        const tagEl = document.getElementById('cafeTagline');
-        if (tagEl) tagEl.textContent = cafeInfoData.tagline || "";
         
         const hoursEl = document.getElementById('cafeHours');
         if (hoursEl) hoursEl.textContent = cafeInfoData.workingHours || "";
@@ -195,17 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return matchesCategory && matchesSearch;
         });
 
-        // 2. Qo'shimcha filtrlar
-        if (currentFilter === 'popular') {
-            filtered = filtered.filter(item => item.isPopular || item.badge === 'Hit');
-        } else if (currentFilter === 'new') {
-            filtered = filtered.filter(item => item.badge === 'Yangi' || item.badge === 'Trend');
-        } else if (currentFilter === 'price-asc') {
-            filtered = [...filtered].sort((a, b) => a.price - b.price);
-        } else if (currentFilter === 'price-desc') {
-            filtered = [...filtered].sort((a, b) => b.price - a.price);
-        }
-
         // Agar natija topilmasa
         if (filtered.length === 0) {
             menuFeed.innerHTML = `
@@ -218,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (currentCategory === 'all' && !searchQuery && currentFilter === 'all') {
+        if (currentCategory === 'all' && !searchQuery) {
             CATEGORIES.filter(c => c.id !== 'all').forEach(cat => {
                 const catItems = filtered.filter(item => item.categoryId === cat.id);
                 if (catItems.length > 0) {
@@ -264,20 +249,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'dish-card';
 
-        let badgeHtml = '';
-        if (dish.badge) {
-            let badgeClass = 'recommend';
-            if (dish.badge === 'Hit') badgeClass = 'hit';
-            if (dish.badge === 'Yangi') badgeClass = 'new';
-            badgeHtml = `<span class="badge-tag ${badgeClass}">${dish.badge}</span>`;
-        }
-
         const formattedPrice = formatPrice(dish.price);
 
         card.innerHTML = `
             <div class="dish-image-box">
                 <img src="${dish.image}" alt="${dish.name}" class="dish-img" loading="lazy" />
-                ${badgeHtml}
                 <span class="dish-portion-tag">${dish.portion || ''}</span>
             </div>
             <div class="dish-info">
@@ -345,14 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
             searchInput.focus();
         });
 
-        filterTagsWrap.querySelectorAll('.filter-chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                filterTagsWrap.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                currentFilter = chip.dataset.filter;
-                renderDishes();
-            });
-        });
 
         document.getElementById('wifiBtn').addEventListener('click', () => {
             wifiModal.classList.add('active');
@@ -508,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const image = document.getElementById('dishFormImage').value.trim();
                 const portion = document.getElementById('dishFormPortion').value.trim();
                 const calories = document.getElementById('dishFormCalories').value.trim();
-                const badge = document.getElementById('dishFormBadge').value;
                 const tagsRaw = document.getElementById('dishFormTags').value.trim();
                 const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()) : [];
                 const description = document.getElementById('dishFormDesc').value.trim();
@@ -520,10 +487,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     image,
                     portion,
                     calories,
-                    badge: badge || null,
+                    badge: null,
                     tags,
                     description,
-                    isPopular: badge === 'Hit'
+                    isPopular: false
                 };
 
                 try {
@@ -616,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const updatedInfo = {
                     name: document.getElementById('cafeFormName').value.trim(),
-                    tagline: document.getElementById('cafeFormTagline').value.trim(),
+                    tagline: "",
                     address: document.getElementById('cafeFormAddress').value.trim(),
                     mapUrl: document.getElementById('cafeFormMapUrl').value.trim(),
                     workingHours: document.getElementById('cafeFormHours').value.trim(),
@@ -677,7 +644,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Kafe formalarini to'ldirish
         document.getElementById('cafeFormName').value = cafeInfoData.name || "UMID+";
-        document.getElementById('cafeFormTagline').value = cafeInfoData.tagline || "";
         document.getElementById('cafeFormAddress').value = cafeInfoData.address || "";
         const mapUrlEl = document.getElementById('cafeFormMapUrl');
         if (mapUrlEl) mapUrlEl.value = cafeInfoData.mapUrl || "";
@@ -756,7 +722,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dishFormImage').value = dish.image;
         document.getElementById('dishFormPortion').value = dish.portion || '';
         document.getElementById('dishFormCalories').value = dish.calories || '';
-        document.getElementById('dishFormBadge').value = dish.badge || '';
+        const badgeEl = document.getElementById('dishFormBadge');
+        if (badgeEl) badgeEl.value = dish.badge || '';
         document.getElementById('dishFormTags').value = dish.tags ? dish.tags.join(', ') : '';
         document.getElementById('dishFormDesc').value = dish.description || '';
 
