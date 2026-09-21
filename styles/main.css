@@ -101,15 +101,25 @@ body {
 }
 
 .cafe-logo {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, #e58e26, #b45309);
-    border-radius: 14px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    box-shadow: var(--shadow-glow);
+    overflow: hidden;
+    background: #0d0a08;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+    border: 2px solid rgba(245, 158, 11, 0.4);
+    flex-shrink: 0;
+}
+
+.cafe-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 .cafe-name-wrap h1 {
@@ -859,8 +869,19 @@ body {
 }
 
 .footer-logo {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-logo-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(245, 158, 11, 0.35);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: block;
 }
 
 .footer-text {
