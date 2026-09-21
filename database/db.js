@@ -29,23 +29,25 @@ function loadFromDisk() {
     return false;
 }
 
-// PostgreSQL ulanish sozlamalari (Render, Railway va Lokal uchun)
-const poolConfig = process.env.DATABASE_URL
-    ? {
-        connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: false },
-        connectionTimeoutMillis: 5000
-      }
-    : {
+function createPool(useSsl = true) {
+    if (process.env.DATABASE_URL) {
+        return new Pool({
+            connectionString: process.env.DATABASE_URL,
+            ssl: useSsl ? { rejectUnauthorized: false } : false,
+            connectionTimeoutMillis: 8000
+        });
+    }
+    return new Pool({
         host: process.env.PG_HOST || 'localhost',
         port: parseInt(process.env.PG_PORT || '5432'),
         user: process.env.PG_USER || 'postgres',
         password: process.env.PG_PASSWORD || 'postgres',
         database: process.env.PG_DATABASE || 'umid_cafe_db',
         connectionTimeoutMillis: 3000
-      };
+    });
+}
 
-const pool = new Pool(poolConfig);
+let pool = createPool(true);
 
 let isPgConnected = false;
 let connectionError = null;
@@ -54,7 +56,7 @@ let connectionError = null;
 let memoryStore = {
     cafeInfo: {
         name: "UMID+",
-        tagline: "Har bir qultumda va lazzatda mehr bor",
+        tagline: "",
         address: "Toshkent sh., Amir Temur ko'chasi, 45-uy",
         workingHours: "08:00 - 23:00 (Har kuni)",
         phone: "+998 (90) 123-45-67",
@@ -365,7 +367,19 @@ memoryStore.menuItems = [...initialDishes];
  */
 async function initDatabase() {
     try {
-        const client = await pool.connect();
+        let client;
+        try {
+            client = await pool.connect();
+        } catch (connErr) {
+            if (process.env.DATABASE_URL && (connErr.message.includes('SSL') || connErr.message.includes('ssl'))) {
+                console.log('SSL siz qayta ulanishga harakat qilinmoqda...');
+                pool = createPool(false);
+                client = await pool.connect();
+            } else {
+                throw connErr;
+            }
+        }
+
         isPgConnected = true;
         connectionError = null;
         console.log('✅ PostgreSQL ma\'lumotlar bazasiga muvaffaqiyatli ulandi!');
@@ -415,7 +429,7 @@ async function initDatabase() {
         if (parseInt(cafeRes.rows[0].count) === 0) {
             await client.query(`
                 INSERT INTO cafe_info (id, name, tagline, address, working_hours, phone, wifi_network, wifi_password, instagram, telegram, currency)
-                VALUES (1, 'UMID+', 'Har bir qultumda va lazzatda mehr bor', 'Toshkent sh., Amir Temur ko''chasi, 45-uy', '08:00 - 23:00 (Har kuni)', '+998 (90) 123-45-67', 'UMID_Plus_Guest', 'umidplus2026', '@umid_cafe_uz', '@umid_cafe_support', 'so''m');
+                VALUES (1, 'UMID+', '', 'Toshkent sh., Amir Temur ko''chasi, 45-uy', '08:00 - 23:00 (Har kuni)', '+998 (90) 123-45-67', 'UMID_Plus_Guest', 'umidplus2026', '@umid_cafe_uz', '@umid_cafe_support', 'so''m');
             `);
         }
 
@@ -657,11 +671,20 @@ async function deleteMenuItem(id) {
 }
 
 function getDatabaseStatus() {
+    let dbName = process.env.PG_DATABASE || 'umid_cafe_db';
+    if (process.env.DATABASE_URL) {
+        try {
+            const parsed = new URL(process.env.DATABASE_URL);
+            dbName = parsed.pathname.replace(/^\//, '') || 'PostgreSQL';
+        } catch {
+            dbName = 'PostgreSQL';
+        }
+    }
+
     return {
         isConnected: isPgConnected,
-        database: process.env.PG_DATABASE || 'umid_cafe_db',
-        host: process.env.PG_HOST || 'localhost',
-        port: process.env.PG_PORT || 5432,
+        database: dbName,
+        hasEnvUrl: !!process.env.DATABASE_URL,
         error: connectionError
     };
 }

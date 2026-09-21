@@ -634,7 +634,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminPgStatus.innerHTML = `<span class="status-dot"></span> PostgreSQL: Ulangan (${status.database})`;
                 } else {
                     adminPgStatus.className = 'pg-status-badge local';
-                    adminPgStatus.innerHTML = `<span class="status-dot"></span> Lokal Rejim (Baza: In-Memory)`;
+                    const detail = !status.hasEnvUrl ? "DATABASE_URL kiritilmagan" : (status.error ? "Ulanish xatosi" : "In-Memory");
+                    adminPgStatus.innerHTML = `<span class="status-dot"></span> Lokal Rejim (${detail})`;
+                    if (status.error) console.warn("PostgreSQL ulanish xatosi:", status.error);
                 }
             }
         } catch {
