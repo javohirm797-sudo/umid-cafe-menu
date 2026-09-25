@@ -193,13 +193,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Agar natija topilmasa
         if (filtered.length === 0) {
-            menuFeed.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">🔍</div>
-                    <div class="empty-title">Hech narsa topilmadi</div>
-                    <p>Qidiruv so'zini o'zgartirib ko'ring yoki boshqa toifani tanlang.</p>
-                </div>
-            `;
+            if (menuItems.length === 0) {
+                menuFeed.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px; text-align: center;">
+                        <div class="empty-icon" style="font-size: 48px; margin-bottom: 12px;">🍽️</div>
+                        <div class="empty-title" style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Menyu hozircha bo'sh</div>
+                        <p style="color: var(--text-muted); font-size: 14px;">Admin panelga kirib (yuqoridagi UMID+ ni 5 marta bosing), yangi taom va ichimliklarni qo'shishingiz mumkin.</p>
+                    </div>
+                `;
+            } else {
+                menuFeed.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-title">Hech narsa topilmadi</div>
+                        <p>Qidiruv so'zini o'zgartirib ko'ring yoki boshqa toifani tanlang.</p>
+                    </div>
+                `;
+            }
             return;
         }
 
