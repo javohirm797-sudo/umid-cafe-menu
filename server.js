@@ -119,7 +119,17 @@ app.put('/api/menu-items/:id', async (req, res) => {
     }
 });
 
-// 7. Taomni o'chirish
+// 7. Barcha taomlarni o'chirish (tozalash)
+app.delete('/api/menu-items', async (req, res) => {
+    try {
+        await db.deleteAllMenuItems();
+        res.json({ success: true, message: "Barcha taomlar muvaffaqiyatli o'chirildi" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 8. Taomni o'chirish
 app.delete('/api/menu-items/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);

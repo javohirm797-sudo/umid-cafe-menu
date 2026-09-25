@@ -255,14 +255,17 @@
             <div class="admin-body">
                 <!-- TAB 1: TAOMLAR RO'YXATI -->
                 <div class="admin-tab-pane active" id="tabDishes">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
                         <input 
                             type="text" 
                             id="adminSearchInput" 
                             class="search-input" 
-                            style="height: 38px; font-size: 0.85rem;" 
+                            style="height: 38px; font-size: 0.85rem; flex: 1;" 
                             placeholder="Ro'yxatdan qidirish..."
                         >
+                        <button type="button" id="btnClearAllDishes" class="admin-action-btn delete" style="padding: 0 12px; height: 38px; border-radius: var(--radius-md); white-space: nowrap; font-weight: 600;" title="Barcha taomlarni o'chirish">
+                            🗑️ Tozalash
+                        </button>
                     </div>
                     <div class="admin-dish-list" id="adminDishList">
                         <!-- JS orqali to'ldiriladi -->

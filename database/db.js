@@ -360,7 +360,7 @@ const initialDishes = [
     }
 ];
 
-memoryStore.menuItems = [...initialDishes];
+memoryStore.menuItems = [];
 
 /**
  * PostgreSQL ma'lumotlar bazasini initsializatsiya qilish
@@ -446,30 +446,15 @@ async function initDatabase() {
             }
         }
 
-        // Taomlar bormi tekshirish
-        const itemsRes = await client.query('SELECT COUNT(*) FROM menu_items');
-        if (parseInt(itemsRes.rows[0].count) === 0) {
-            for (const item of initialDishes) {
-                await client.query(`
-                    INSERT INTO menu_items (id, category_id, name, price, image, description, portion, calories, is_popular, badge, tags)
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-                    ON CONFLICT (id) DO NOTHING
-                `, [
-                    item.id,
-                    item.categoryId,
-                    item.name,
-                    item.price,
-                    item.image,
-                    item.description,
-                    item.portion,
-                    item.calories,
-                    item.isPopular || false,
-                    item.badge || null,
-                    item.tags || []
-                ]);
+        // Serial ketma-ketlikni to'g'rilash (agar taomlar mavjud bo'lsa)
+        try {
+            const maxIdRes = await client.query('SELECT MAX(id) FROM menu_items');
+            const maxId = maxIdRes.rows[0]?.max;
+            if (maxId) {
+                await client.query(`SELECT setval('menu_items_id_seq', $1)`, [maxId]);
             }
-            await client.query(`SELECT setval('menu_items_id_seq', (SELECT MAX(id) FROM menu_items));`);
-            console.log('✅ Boshlang\'ich taomlar PostgreSQL ga yuklandi!');
+        } catch (e) {
+            // ignore
         }
 
         client.release();
@@ -670,6 +655,25 @@ async function deleteMenuItem(id) {
     return true;
 }
 
+async function deleteAllMenuItems() {
+    if (isPgConnected) {
+        try {
+            await pool.query('DELETE FROM menu_items');
+            try {
+                await pool.query('ALTER SEQUENCE menu_items_id_seq RESTART WITH 1');
+            } catch (seqErr) {
+                // ignore
+            }
+            console.log("✅ Barcha taomlar PostgreSQL bazasidan to'liq o'chirildi");
+        } catch (e) {
+            console.error('deleteAllMenuItems xatolik:', e.message);
+        }
+    }
+    memoryStore.menuItems = [];
+    saveToDisk();
+    return true;
+}
+
 function getDatabaseStatus() {
     let dbName = process.env.PG_DATABASE || 'umid_cafe_db';
     if (process.env.DATABASE_URL) {
@@ -697,6 +701,7 @@ module.exports = {
     addMenuItem,
     updateMenuItem,
     deleteMenuItem,
+    deleteAllMenuItems,
     getDatabaseStatus,
     pool
 };

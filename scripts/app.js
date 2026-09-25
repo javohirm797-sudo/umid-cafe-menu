@@ -530,6 +530,28 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Barcha taomlarni tozalash (Hammasini o'chirish)
+        const btnClearAllDishes = document.getElementById('btnClearAllDishes');
+        if (btnClearAllDishes) {
+            btnClearAllDishes.addEventListener('click', async () => {
+                if (confirm("Rostdan ham menyudagi barcha taomlarni o'chirib tashlamoqchimisiz?")) {
+                    menuItemsList = [];
+                    localStorage.setItem('umid_menu_items', JSON.stringify([]));
+                    renderDishes();
+                    renderAdminDishList();
+
+                    try {
+                        const res = await fetch('/api/menu-items', { method: 'DELETE' });
+                        if (res.ok) {
+                            alert("Barcha taomlar muvaffaqiyatli o'chirildi! Endi o'zingiz yangi taomlarni qo'shishingiz mumkin. ✅");
+                        }
+                    } catch (err) {
+                        console.log('Barcha taomlar o\'chirildi');
+                    }
+                }
+            });
+        }
+
         // Yangi taom qo'shish / tahrirlash formasi
         if (adminDishForm) {
             adminDishForm.addEventListener('submit', async (e) => {
