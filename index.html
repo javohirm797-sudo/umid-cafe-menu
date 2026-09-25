@@ -299,8 +299,33 @@
                         </div>
 
                         <div class="form-row">
-                            <label>Rasm URL havolasi *</label>
-                            <input type="url" id="dishFormImage" class="form-input" placeholder="https://..." required>
+                            <label>Taom rasmi *</label>
+                            <div class="image-upload-box">
+                                <!-- Yashirin file input (kamera va galereya uchun) -->
+                                <input type="file" id="dishFormFileInput" accept="image/*" style="display: none;">
+                                
+                                <div class="upload-actions-row">
+                                    <button type="button" id="btnPickGallery" class="upload-btn-gallery">
+                                        <span class="upload-icon">📷</span>
+                                        <span id="btnPickGalleryText">Galereyadan rasm tanlash</span>
+                                    </button>
+                                    <button type="button" id="btnToggleUrl" class="upload-btn-url" title="Havola (URL) orqali kiritish">
+                                        <span>🔗</span> URL
+                                    </button>
+                                </div>
+
+                                <div id="urlInputContainer" class="url-input-container" style="display: none;">
+                                    <input type="text" id="dishFormImage" class="form-input" placeholder="https://rasm-havolasi.jpg">
+                                </div>
+
+                                <div id="dishImagePreviewWrap" class="image-preview-wrap" style="display: none;">
+                                    <img id="dishImagePreviewImg" src="" alt="Taom rasmi" class="image-preview-img">
+                                    <div class="preview-overlay">
+                                        <span class="preview-badge">✓ Rasm tanlandi</span>
+                                        <button type="button" id="btnRemoveImage" class="preview-remove-btn" title="Rasmni o'chirish">✕</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-grid-2">

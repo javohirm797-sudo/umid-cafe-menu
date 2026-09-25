@@ -465,6 +465,71 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Galereyadan rasm yuklash va ko'rish (Preview)
+        const fileInput = document.getElementById('dishFormFileInput');
+        const btnPickGallery = document.getElementById('btnPickGallery');
+        const btnPickGalleryText = document.getElementById('btnPickGalleryText');
+        const btnToggleUrl = document.getElementById('btnToggleUrl');
+        const urlInputContainer = document.getElementById('urlInputContainer');
+        const dishFormImage = document.getElementById('dishFormImage');
+        const previewWrap = document.getElementById('dishImagePreviewWrap');
+        const previewImg = document.getElementById('dishImagePreviewImg');
+        const btnRemoveImage = document.getElementById('btnRemoveImage');
+
+        if (btnPickGallery && fileInput) {
+            btnPickGallery.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+
+                if (btnPickGalleryText) btnPickGalleryText.textContent = "Yuklanmoqda...";
+
+                try {
+                    const compressed = await compressImageFile(file, 800, 800, 0.82);
+                    dishFormImage.value = compressed;
+                    previewImg.src = compressed;
+                    previewWrap.style.display = 'block';
+                    if (btnPickGalleryText) btnPickGalleryText.textContent = "Rasm almashtirish";
+                } catch (err) {
+                    alert("Rasmni yuklashda xatolik yuz berdi: " + err.message);
+                    if (btnPickGalleryText) btnPickGalleryText.textContent = "Galereyadan rasm tanlash";
+                }
+            });
+        }
+
+        if (btnToggleUrl && urlInputContainer) {
+            btnToggleUrl.addEventListener('click', () => {
+                const isHidden = urlInputContainer.style.display === 'none';
+                urlInputContainer.style.display = isHidden ? 'block' : 'none';
+                if (isHidden && dishFormImage) dishFormImage.focus();
+            });
+        }
+
+        if (dishFormImage && previewImg && previewWrap) {
+            dishFormImage.addEventListener('input', (e) => {
+                const val = e.target.value.trim();
+                if (val) {
+                    previewImg.src = val;
+                    previewWrap.style.display = 'block';
+                } else if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                    previewWrap.style.display = 'none';
+                }
+            });
+        }
+
+        if (btnRemoveImage) {
+            btnRemoveImage.addEventListener('click', () => {
+                if (dishFormImage) dishFormImage.value = '';
+                if (fileInput) fileInput.value = '';
+                if (previewImg) previewImg.src = '';
+                if (previewWrap) previewWrap.style.display = 'none';
+                if (btnPickGalleryText) btnPickGalleryText.textContent = "Galereyadan rasm tanlash";
+            });
+        }
+
         // Yangi taom qo'shish / tahrirlash formasi
         if (adminDishForm) {
             adminDishForm.addEventListener('submit', async (e) => {
@@ -474,6 +539,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const categoryId = document.getElementById('dishFormCategory').value;
                 const price = Number(document.getElementById('dishFormPrice').value);
                 const image = document.getElementById('dishFormImage').value.trim();
+                
+                if (!image) {
+                    alert("Iltimos, taom uchun rasm tanlang (Galereyadan yuklang yoki URL kiriting)!");
+                    return;
+                }
                 const portion = document.getElementById('dishFormPortion').value.trim();
                 const calories = document.getElementById('dishFormCalories').value.trim();
                 const tagsRaw = document.getElementById('dishFormTags').value.trim();
@@ -721,13 +791,26 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dishFormName').value = dish.name;
         document.getElementById('dishFormCategory').value = dish.categoryId || 'coffee';
         document.getElementById('dishFormPrice').value = dish.price;
-        document.getElementById('dishFormImage').value = dish.image;
+        document.getElementById('dishFormImage').value = dish.image || '';
         document.getElementById('dishFormPortion').value = dish.portion || '';
         document.getElementById('dishFormCalories').value = dish.calories || '';
         const badgeEl = document.getElementById('dishFormBadge');
         if (badgeEl) badgeEl.value = dish.badge || '';
         document.getElementById('dishFormTags').value = dish.tags ? dish.tags.join(', ') : '';
         document.getElementById('dishFormDesc').value = dish.description || '';
+
+        // Rasm preview ko'rsatish
+        const previewWrap = document.getElementById('dishImagePreviewWrap');
+        const previewImg = document.getElementById('dishImagePreviewImg');
+        const btnPickText = document.getElementById('btnPickGalleryText');
+        if (dish.image && previewImg && previewWrap) {
+            previewImg.src = dish.image;
+            previewWrap.style.display = 'block';
+            if (btnPickText) btnPickText.textContent = "Rasm almashtirish";
+        } else if (previewWrap) {
+            previewWrap.style.display = 'none';
+            if (btnPickText) btnPickText.textContent = "Galereyadan rasm tanlash";
+        }
 
         document.getElementById('dishFormSubmitBtn').textContent = "O'zgarishlarni saqlash";
         document.getElementById('adminNewDishTabBtn').textContent = "✏️ Tahrirlash";
@@ -739,8 +822,64 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetDishForm() {
         document.getElementById('dishFormId').value = '';
         adminDishForm.reset();
+        document.getElementById('dishFormImage').value = '';
+
+        const previewWrap = document.getElementById('dishImagePreviewWrap');
+        const previewImg = document.getElementById('dishImagePreviewImg');
+        const fileInput = document.getElementById('dishFormFileInput');
+        const btnPickText = document.getElementById('btnPickGalleryText');
+        const urlInputContainer = document.getElementById('urlInputContainer');
+
+        if (previewWrap) previewWrap.style.display = 'none';
+        if (previewImg) previewImg.src = '';
+        if (fileInput) fileInput.value = '';
+        if (btnPickText) btnPickText.textContent = "Galereyadan rasm tanlash";
+        if (urlInputContainer) urlInputContainer.style.display = 'none';
+
         document.getElementById('dishFormSubmitBtn').textContent = "Saqlash";
         document.getElementById('adminNewDishTabBtn').textContent = "➕ Yangi taom";
+    }
+
+    /**
+     * Rasmni brauzer xotirasida siqish va o'lchamini moslashtirish (Canvas orqali)
+     */
+    function compressImageFile(file, maxWidth = 800, maxHeight = 800, quality = 0.82) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error("Faylni o'qishda xatolik yuz berdi"));
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onerror = () => reject(new Error("Rasm formatini o'qib bo'lmadi"));
+                img.onload = () => {
+                    let w = img.width;
+                    let h = img.height;
+
+                    if (w > h) {
+                        if (w > maxWidth) {
+                            h = Math.round((h * maxWidth) / w);
+                            w = maxWidth;
+                        }
+                    } else {
+                        if (h > maxHeight) {
+                            w = Math.round((w * maxHeight) / h);
+                            h = maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(dataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
     function closeModal() {

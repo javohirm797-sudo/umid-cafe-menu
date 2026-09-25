@@ -1168,3 +1168,181 @@ textarea.form-input {
     transform: scale(0.94);
     color: var(--primary);
 }
+
+/* Image Upload & Gallery Picker Styles */
+.image-upload-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upload-actions-row {
+    display: flex;
+    gap: 8px;
+}
+
+.upload-btn-gallery {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(229, 142, 38, 0.16), rgba(245, 158, 11, 0.08));
+    border: 1.5px dashed var(--primary);
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 0.88rem;
+    font-weight: 700;
+    font-family: var(--font-main);
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.upload-btn-gallery:hover, .upload-btn-gallery:active {
+    background: rgba(229, 142, 38, 0.26);
+    transform: translateY(-1px);
+}
+
+.upload-btn-url {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: var(--transition);
+}
+
+.upload-btn-url:hover {
+    color: var(--text-main);
+    border-color: var(--border-active);
+}
+
+.image-preview-wrap {
+    position: relative;
+    width: 100%;
+    height: 165px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #0d0a08;
+    margin-top: 2px;
+}
+
+.image-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.preview-badge {
+    background: rgba(16, 185, 129, 0.92);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.preview-remove-btn {
+    pointer-events: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: var(--transition);
+}
+
+.preview-remove-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Mobile-Specific Adaptations (Telefon varianti) */
+@media (max-width: 600px) {
+    .app-container {
+        box-shadow: none;
+    }
+
+    .cafe-hero {
+        padding: 16px 14px 12px;
+    }
+
+    .cafe-name-wrap h1 {
+        font-size: 1.15rem;
+    }
+
+    .cafe-logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .admin-modal-container {
+        height: 94vh;
+        max-height: 94vh;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .admin-header {
+        padding: 12px 14px;
+    }
+
+    .admin-tabs {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+
+    .admin-tab-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    .admin-body {
+        padding: 12px 14px;
+    }
+
+    .form-input {
+        font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+    }
+
+    .admin-dish-row {
+        padding: 10px;
+    }
+
+    .admin-dish-thumb {
+        width: 48px;
+        height: 48px;
+    }
+
+    .admin-action-btn {
+        padding: 8px 10px;
+    }
+}
+
