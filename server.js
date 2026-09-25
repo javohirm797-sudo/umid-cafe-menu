@@ -41,6 +41,7 @@ app.post('/api/admin/login', (req, res) => {
 // 3. Kafe ma'lumotlarini olish va yangilash
 app.get('/api/cafe-info', async (req, res) => {
     try {
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         const info = await db.getCafeInfo();
         res.json(info);
     } catch (err) {
@@ -60,6 +61,7 @@ app.put('/api/cafe-info', async (req, res) => {
 // 4. Taomlar ro'yxatini olish
 app.get('/api/menu-items', async (req, res) => {
     try {
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
         const items = await db.getMenuItems();
         res.json(items);
     } catch (err) {

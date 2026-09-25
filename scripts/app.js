@@ -78,9 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function loadDataFromApi() {
         try {
+            const timestamp = Date.now();
             const [infoRes, itemsRes] = await Promise.all([
-                fetch('/api/cafe-info').catch(() => null),
-                fetch('/api/menu-items').catch(() => null)
+                fetch(`/api/cafe-info?_t=${timestamp}`, { cache: 'no-store' }).catch(() => null),
+                fetch(`/api/menu-items?_t=${timestamp}`, { cache: 'no-store' }).catch(() => null)
             ]);
 
             if (infoRes && infoRes.ok) {
@@ -385,21 +386,39 @@ document.addEventListener('DOMContentLoaded', () => {
      * ========================================================
      */
     function setupAdminHandlers() {
-        // "UMID+" sarlavhasiga 5 marta bosilganda PIN so'rash oynasi
-        if (cafeNameEl) {
-            cafeNameEl.addEventListener('click', (e) => {
+        // To'g'ridan-to'g'ri Admin tugmalari (Header va Footer)
+        const adminHeaderBtn = document.getElementById('adminHeaderBtn');
+        if (adminHeaderBtn) {
+            adminHeaderBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                e.stopPropagation();
+                openAdminPinModal();
+            });
+        }
 
+        const adminFooterBtn = document.getElementById('adminFooterBtn');
+        if (adminFooterBtn) {
+            adminFooterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAdminPinModal();
+            });
+        }
+
+        // "UMID+" sarlavhasiga yoki logoga 5 marta bosilganda PIN so'rash oynasi
+        const brandTrigger = document.querySelector('.cafe-brand') || cafeNameEl;
+        if (brandTrigger) {
+            brandTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
                 umidClickCount++;
                 
                 // Ko'rinadigan yengil bosilish animatsiyasi
-                cafeNameEl.style.transform = 'scale(0.92)';
-                cafeNameEl.style.color = 'var(--primary)';
-                setTimeout(() => { 
-                    cafeNameEl.style.transform = '';
-                    cafeNameEl.style.color = ''; 
-                }, 150);
+                if (cafeNameEl) {
+                    cafeNameEl.style.transform = 'scale(0.92)';
+                    cafeNameEl.style.color = 'var(--primary)';
+                    setTimeout(() => { 
+                        cafeNameEl.style.transform = '';
+                        cafeNameEl.style.color = ''; 
+                    }, 150);
+                }
 
                 if (umidClickTimer) clearTimeout(umidClickTimer);
 
@@ -570,12 +589,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const name = document.getElementById('dishFormName').value.trim();
                 const categoryId = document.getElementById('dishFormCategory').value;
                 const price = Number(document.getElementById('dishFormPrice').value);
-                const image = document.getElementById('dishFormImage').value.trim();
+                let image = document.getElementById('dishFormImage').value.trim();
                 
+                // Agar rasm tanlanmagan bo'lsa, xushbo'y taom rasmi zaxira sifatida o'rnatiladi
                 if (!image) {
-                    alert("Iltimos, taom uchun rasm tanlang (Galereyadan yuklang yoki URL kiriting)!");
-                    return;
+                    image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';
                 }
+
                 const portion = document.getElementById('dishFormPortion').value.trim();
                 const calories = document.getElementById('dishFormCalories').value.trim();
                 const tagsRaw = document.getElementById('dishFormTags').value.trim();
@@ -643,8 +663,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderDishes();
                 renderAdminDishList();
 
-                // Ro'yxat tabiga qaytish
-                document.querySelector('.admin-tab-btn[data-tab="tabDishes"]').click();
+                alert(id ? "✅ Taom muvaffaqiyatli yangilandi!" : "✅ Yangi taom menyuga muvaffaqiyatli qo'shildi!");
+                if (adminModal) adminModal.classList.remove('active');
             });
 
             document.getElementById('dishFormResetBtn').addEventListener('click', () => {
