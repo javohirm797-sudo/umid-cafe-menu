@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const https = require('https');
 require('dotenv').config();
 
 const db = require('./database/db');
@@ -18,6 +19,10 @@ app.use(express.static(path.join(__dirname)));
 // ==========================================
 // REST API ENDPOINTLARI
 // ==========================================
+
+// 0. Tezkor Health & Ping tekshiruvi (Keep-alive uchun)
+app.get('/ping', (req, res) => res.status(200).send('pong'));
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok', time: new Date().toISOString() }));
 
 // 1. PostgreSQL Holatini tekshirish
 app.get('/api/status', (req, res) => {
@@ -147,4 +152,14 @@ app.listen(PORT, async () => {
     console.log(`🔒 Admin PIN kodi: ${ADMIN_PIN}`);
     console.log(`===============================================`);
     await db.initDatabase();
+
+    // Render bepul serverini uyqudan saqlash (Avto keep-alive ping)
+    const siteUrl = process.env.RENDER_EXTERNAL_URL || 'https://umid-cafe-menu.onrender.com';
+    setInterval(() => {
+        https.get(`${siteUrl}/ping`, (res) => {
+            console.log(`[Keep-Alive] Ping muvaffaqiyatli (${res.statusCode}) - ${new Date().toLocaleTimeString()}`);
+        }).on('error', (err) => {
+            console.log(`[Keep-Alive] Xatolik: ${err.message}`);
+        });
+    }, 12 * 60 * 1000); // Har 12 daqiqada
 });
