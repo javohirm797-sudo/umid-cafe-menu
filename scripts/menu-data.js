@@ -32,5 +32,269 @@ const CATEGORIES = [
     { id: "salads", name: "Salatlar & Gazaklar", icon: "🥗" }
 ];
 
-// Bo'sh boshlang'ich ro'yxat (foydalanuvchi admin paneldan o'z taomlarini qo'shadi)
-const MENU_ITEMS = [];
+const MENU_ITEMS = [
+    {
+        id: 1,
+        categoryId: "coffee",
+        name: "Kapuchino (Cappuccino)",
+        price: 25000,
+        image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=800&q=80",
+        description: "Yangi qovurilgan arabika donachalaridan tayyorlangan xushbo'y espresso va nozik sutli ko'pik.",
+        portion: "250 ml",
+        calories: "120 kkal",
+        isPopular: true,
+        tags: ["Issiq", "Kofe", "Klassik"]
+    },
+    {
+        id: 2,
+        categoryId: "coffee",
+        name: "Karamelli Latte",
+        price: 30000,
+        image: "https://images.unsplash.com/photo-1593443320739-77f74939d0da?auto=format&fit=crop&w=800&q=80",
+        description: "Espresso, ko'pirtirilgan sut va uy sharoitida tayyorlangan shirin karamel siropi.",
+        portion: "350 ml",
+        calories: "210 kkal",
+        isPopular: true,
+        tags: ["Issiq", "Shirin"]
+    },
+    {
+        id: 3,
+        categoryId: "coffee",
+        name: "Klassik Espresso",
+        price: 18000,
+        image: "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?auto=format&fit=crop&w=800&q=80",
+        description: "To'yingan ta'm va oltin rangli ko'pikka ega kuchli espresso.",
+        portion: "30 ml",
+        calories: "5 kkal",
+        isPopular: false,
+        tags: ["Klassik", "Kuchli"]
+    },
+    {
+        id: 4,
+        categoryId: "coffee",
+        name: "Yalpizli Shokoladli Mokka",
+        price: 34000,
+        image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
+        description: "Qora shokolad, toza espresso, sut va yangi yalpiz ekstrakti bilan ajoyib uyg'unlik.",
+        portion: "320 ml",
+        calories: "280 kkal",
+        isPopular: false,
+        tags: ["Shokolad", "Yalpiz"]
+    },
+    {
+        id: 5,
+        categoryId: "coffee",
+        name: "To'q Yasminli Ko'k Choy",
+        price: 20000,
+        image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+        description: "Elita yasmin guli barglari bilan damlangan xushbo'y va tetiklantiruvchi choynak choy.",
+        portion: "600 ml (choynak)",
+        calories: "0 kkal",
+        isPopular: false,
+        tags: ["Choy", "Tinchlantiruvchi"]
+    },
+    {
+        id: 6,
+        categoryId: "cold-drinks",
+        name: "Tropik Marakuya & Mango Limonad",
+        price: 32000,
+        image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
+        description: "Tabiiy mango pyuresi, marakuya, yalpiz va muzdek gazlangan suv.",
+        portion: "450 ml",
+        calories: "140 kkal",
+        isPopular: true,
+        tags: ["Salqin", "Tropik"]
+    },
+    {
+        id: 7,
+        categoryId: "cold-drinks",
+        name: "Klassik Moxito (Mojito)",
+        price: 28000,
+        image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
+        description: "Yangi laym bo'laklari, yangi uzilgan yalpiz barglari va muzdek tetiklik.",
+        portion: "400 ml",
+        calories: "95 kkal",
+        tags: ["Laym", "Yalpiz"]
+    },
+    {
+        id: 8,
+        categoryId: "cold-drinks",
+        name: "Bumble Coffee (Apelsinli Muzdek Kofe)",
+        price: 35000,
+        image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80",
+        description: "Tabiiy yangi siqilgan apelsin sharbati, karamel siropi va sovuq espresso qatlami.",
+        portion: "350 ml",
+        calories: "160 kkal",
+        tags: ["Muzdek", "Kofe", "Tsitrus"]
+    },
+    {
+        id: 9,
+        categoryId: "cold-drinks",
+        name: "Qulupnayli & Rayhonli Ays-ti (Ice Tea)",
+        price: 26000,
+        image: "https://images.unsplash.com/photo-1497534446932-c925b458314e?auto=format&fit=crop&w=800&q=80",
+        description: "Sovuq qora choy, yangi qulupnay va binafsha rayhon bilan tayyorlangan salqin ichimlik.",
+        portion: "400 ml",
+        calories: "85 kkal",
+        tags: ["Salqin", "Mevali"]
+    },
+    {
+        id: 10,
+        categoryId: "breakfast",
+        name: "Avokado & Qizil Baliqli Tost",
+        price: 48000,
+        image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80",
+        description: "Quritilgan krispi nonga kremli avokado pyuresi, zaif tuzlangan qizil losos balig'i va pashot tuxumi.",
+        portion: "280 g",
+        calories: "380 kkal",
+        isPopular: true,
+        tags: ["Foydali", "Oqsil", "Nonushta"]
+    },
+    {
+        id: 11,
+        categoryId: "breakfast",
+        name: "Inglizcha To'yimli Nonushta",
+        price: 52000,
+        image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80",
+        description: "Qovurilgan tuxum, mol go'shti kolbasalari, qizil loviya, qovurilgan pomidor, qo'ziqorin va qarsildoq tost.",
+        portion: "420 g",
+        calories: "620 kkal",
+        tags: ["To'yimli", "Go'shtli"]
+    },
+    {
+        id: 12,
+        categoryId: "breakfast",
+        name: "Pishloqli & Ismaloqli Kruassan",
+        price: 36000,
+        image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
+        description: "Fransuzcha sariyog'li kruassan ichida erigan motsarella pishlog'i va xushbo'y ismaloq.",
+        portion: "190 g",
+        calories: "340 kkal",
+        tags: ["Pishiriq", "Pishloqli"]
+    },
+    {
+        id: 13,
+        categoryId: "fast-food",
+        name: "UMID+ Maxsus Go'shtli Burger",
+        price: 54000,
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+        description: "100% mayin mol go'shti kotleti, erigan cheddor pishlog'i, karamellangan piyoz, aysberg va maxsus sous.",
+        portion: "360 g",
+        calories: "720 kkal",
+        isPopular: true,
+        tags: ["Go'shtli", "To'yimli"]
+    },
+    {
+        id: 14,
+        categoryId: "fast-food",
+        name: "Krispi Tovuqli Burger (Crispy Chicken)",
+        price: 46000,
+        image: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=800&q=80",
+        description: "Qarsildoq non talqonida pishirilgan tovuq filesi, tuzlangan bodring va xantal-mayonez sousi.",
+        portion: "320 g",
+        calories: "590 kkal",
+        tags: ["Qarsildoq", "Tovuqli"]
+    },
+    {
+        id: 15,
+        categoryId: "fast-food",
+        name: "Pishloqli Kartoshka Fri & Triffel sous",
+        price: 26000,
+        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=800&q=80",
+        description: "Oltin rang qovurilgan kartoshka fri, parmezan qirindisi va xushbo'y truffel mayonezi.",
+        portion: "200 g",
+        calories: "390 kkal",
+        tags: ["Gazak", "Qarsildoq"]
+    },
+    {
+        id: 16,
+        categoryId: "main-dishes",
+        name: "Mol Go'shtli Ribay Steyk",
+        price: 98000,
+        image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+        description: "Olovda pishirilgan yosh buzoq go'shti steyki, rozmarin novdalari va grilda qovurilgan sabzavotlar bilan.",
+        portion: "350 g",
+        calories: "680 kkal",
+        isPopular: true,
+        tags: ["Steyk", "Go'shtli"]
+    },
+    {
+        id: 17,
+        categoryId: "main-dishes",
+        name: "Qo'ziqorinli Fettuchini Alfredo",
+        price: 52000,
+        image: "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=800&q=80",
+        description: "Italyancha pasta, mayin qaymoqli sous, yangi shampinyon va grated parmezan.",
+        portion: "330 g",
+        calories: "540 kkal",
+        tags: ["Pasta", "Italyancha"]
+    },
+    {
+        id: 18,
+        categoryId: "main-dishes",
+        name: "Losos Balig'i Qaymoqli Sousda",
+        price: 89000,
+        image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80",
+        description: "Tandirda pishirilgan dengiz losos balig'i, shivitli qaymoq sousi va limon bo'lagi bilan.",
+        portion: "300 g",
+        calories: "490 kkal",
+        tags: ["Dengiz mahsuloti", "Foydali"]
+    },
+    {
+        id: 19,
+        categoryId: "desserts",
+        name: "Klassik San-Sebastian Chizkeyk",
+        price: 36000,
+        image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80",
+        description: "Ispancha kuydirilgan kremli chizkeyk, issiq sutli shokolad sousi quyilgan.",
+        portion: "180 g",
+        calories: "410 kkal",
+        isPopular: true,
+        tags: ["Shirin", "Pishloqli"]
+    },
+    {
+        id: 20,
+        categoryId: "desserts",
+        name: "Shokoladli Issiq Fondan",
+        price: 38000,
+        image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80",
+        description: "Ichidan erigan issiq shokolad oqib chiquvchi keks va bir sharik vanilli muzqaymoq.",
+        portion: "160 g",
+        calories: "480 kkal",
+        tags: ["Shokolad", "Issiq"]
+    },
+    {
+        id: 21,
+        categoryId: "desserts",
+        name: "Italyancha Tiramisu",
+        price: 34000,
+        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80",
+        description: "Savoyardi pechenyelari, espresso qahvasi va mayin maskarpone kremi bilan.",
+        portion: "170 g",
+        calories: "350 kkal",
+        tags: ["Klassik", "Kofe ta'mli"]
+    },
+    {
+        id: 22,
+        categoryId: "salads",
+        name: "Tovuqli Sezar Salati",
+        price: 42000,
+        image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=800&q=80",
+        description: "Aysberg barglari, olovda pishirilgan tovuq filesi, parmezan pishlog'i, cherry pomidor va krutonlar.",
+        portion: "260 g",
+        calories: "320 kkal",
+        isPopular: true,
+        tags: ["Tovuq", "Salat"]
+    },
+    {
+        id: 23,
+        categoryId: "salads",
+        name: "Grecha Salati (Yunoncha)",
+        price: 35000,
+        image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
+        description: "Yangi bodring, pomidor, qizil piyoz, zaytun mevalari va yumshoq Feta pishlog'i.",
+        portion: "250 g",
+        calories: "210 kkal",
+        tags: ["Foydali", "Vegetarian"]
+    }
+];
