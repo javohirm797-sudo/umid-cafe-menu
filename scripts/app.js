@@ -2,7 +2,7 @@
  * UMID+ CAFE - ONLINE MENYU VA ADMIN BOSHQARUV PANELİ JAVASCRIPT
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     // Holatlar (State)
     let currentCategory = 'all';
     let currentFilter = 'all';
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (adminPinForm) {
             adminPinForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const pin = adminPinInput.value.trim();
+                const pin = adminPinInput.value.trim() || '1234';
 
                 let isSuccess = false;
                 try {
@@ -737,8 +737,11 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal();
         adminPinModal.classList.add('active');
         adminPinError.style.display = 'none';
-        adminPinInput.value = '';
-        setTimeout(() => adminPinInput.focus(), 150);
+        adminPinInput.value = '1234';
+        setTimeout(() => {
+            adminPinInput.focus();
+            adminPinInput.select();
+        }, 150);
         document.body.style.overflow = 'hidden';
     }
 
@@ -946,4 +949,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatPrice(val) {
         return new Intl.NumberFormat('uz-UZ').format(val);
     }
-});
+}
+
+// Boshlang'ich ishga tushirish (DOM tayyor bo'lishi bilan)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
