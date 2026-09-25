@@ -587,12 +587,12 @@ body {
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     z-index: 100;
-    display: flex;
+    display: none;
     align-items: flex-end;
     justify-content: center;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
 }
 
 @media (min-width: 540px) {
@@ -603,8 +603,9 @@ body {
 }
 
 .modal-overlay.active {
+    display: flex;
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
 
 .modal-content {
